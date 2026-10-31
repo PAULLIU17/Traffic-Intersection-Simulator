@@ -2,24 +2,22 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    // Rigidbody of the GameObject (Player).
+    [SerializeField] private float speed;
+    [SerializeField] private int exitDirection;
     private Rigidbody rb;
-
-    // Car Speed
-    public float speed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+
+        exitDirection = Random.Range(0, 3); // 0 = left, 1 = straight, 2 = right
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb = GetComponent<Rigidbody>();
         transform.position += transform.forward * speed * Time.deltaTime;
-
     }
 
     // Move Car

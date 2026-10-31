@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button switchView;
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject selectionPanel;
 
     private int score;
     private float time;
@@ -50,8 +51,9 @@ public class GameManager : MonoBehaviour
         scoreText.gameObject.SetActive(true);
         timerText.gameObject.SetActive(true);
         switchView.gameObject.SetActive(true);
+        selectionPanel.gameObject.SetActive(true);
 
-        switch(difficulty)
+        switch (difficulty)
         {
             // Easy
             case 3:
