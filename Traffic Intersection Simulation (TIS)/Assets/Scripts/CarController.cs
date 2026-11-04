@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,21 +7,26 @@ public class CarController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private int exitDirection;
-    [SerializeField] private bool isAtIntersection;
+
+    private bool isAtIntersection;
     private Rigidbody rb;
+    private bool hasTurned;
+    private Vector3 turnLocation;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        exitDirection = Random.Range(0, 3); // 0 = left, 1 = straight, 2 = right
+
         isAtIntersection = false;
         rb = GetComponent<Rigidbody>();
-
-        exitDirection = Random.Range(0, 3); // 0 = left, 1 = straight, 2 = right
+        hasTurned = false;
     }
 
     // Update is called once per frame
     void Update()
     {   
+
         // If approaching or leaving intersection
         if(!isAtIntersection) { 
             MoveCar(); 
@@ -41,24 +48,32 @@ public class CarController : MonoBehaviour
     // Move Car
     void MoveCar()
     {
-        //rb.AddForce(Vector3.forward * speed * Time.deltaTime);
         rb.position += transform.forward * speed * Time.deltaTime;
     }
 
     // Rotate Car
-    // 0 = left
-    // 2 = right
     void RotateCar()
     {
-        if(exitDirection == 0)
+        // Rotates based on exit direction
+        // 0 = Turn Left  = -90.0f
+        // 2 = Turn Right =  90.0f
+        if(!hasTurned)
         {
-            //rb.AddTorque(Vector3.up * speed * Time.deltaTime * -1);
-            rb.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Vector3.left), 1);
-        }
-
-        else if(exitDirection == 2)
-        {
-            rb.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Vector3.right), 1);
+            switch (exitDirection)
+            {
+                case 0:
+                    //rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.Euler(0, rb.rotation.y - 90.0f, 0), 90.0f * Time.deltaTime);
+                    rb.rotation *= Quaternion.Euler(0, -90, 0);
+                    hasTurned = true;
+                    break;
+                case 2:
+                    //rb.rotation = Quaternion.RotateTowards(rb.rotation, Quaternion.Euler(0, rb.rotation.y + 90.0f, 0), 90.0f * Time.deltaTime);
+                    rb.rotation *= Quaternion.Euler(0, 90, 0);
+                    hasTurned = true;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -68,7 +83,17 @@ public class CarController : MonoBehaviour
         if(other.CompareTag("Crosswalk Trigger"))
         {
             isAtIntersection = true;
-            Debug.Log("Car reached intersection.");
+
+            if (exitDirection == 0) 
+            { 
+                turnLocation = transform.position + transform.forward * 3.5f; 
+            }
+            else if (exitDirection == 2) 
+            { 
+                turnLocation = transform.position + transform.forward * 2.0f; 
+            }
+
+            Debug.Log(turnLocation);
         }
     }
 
@@ -78,32 +103,17 @@ public class CarController : MonoBehaviour
         if (other.CompareTag("Crosswalk Trigger"))
         {
             isAtIntersection = false;
-            Debug.Log("Car left intersection.");
         }
     }
 
     // What to do when car is at crosswalk
     void CrossIntersection()
     {
-        switch(exitDirection)
+        MoveCar();
+        
+        if(Vector3.Distance(transform.position, turnLocation) < 0.1f)
         {
-            // If 0 (turn left)
-            case 0:
-                MoveCar();
-                RotateCar();
-                break;
-            // If 1 (go straight)
-            case 1:
-                MoveCar();
-                break;
-            // If 2 (turn right)
-            case 2:
-                MoveCar();
-                RotateCar();
-                break;
-            default:
-                break;
+            RotateCar();
         }
-
     }
 }
