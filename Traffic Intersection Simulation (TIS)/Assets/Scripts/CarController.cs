@@ -10,6 +10,7 @@ public class CarController : MonoBehaviour
 
     private bool isAtIntersection;
     private Rigidbody rb;
+    private bool wasClickedOn;
     private bool hasTurned;
     private Vector3 turnLocation;
 
@@ -20,6 +21,7 @@ public class CarController : MonoBehaviour
 
         isAtIntersection = false;
         rb = GetComponent<Rigidbody>();
+        wasClickedOn = false;
         hasTurned = false;
     }
 
@@ -43,18 +45,35 @@ public class CarController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    // Detects when mouse clicks car
-    private void OnMouseDown()
-    {
-        Debug.Log("Car was clicked.");
+        // Detects left mouse button clicks/presses on GameObjects
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            // Creates a ray that points to where the mouse is clicking
+            // And creates a visible red ray
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 2f);
+
+            // If ray touches target, destroys target and updates score if game is still ongoing
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.transform == transform)
+                {
+                    Debug.Log("Car was clicked.");
+                    wasClickedOn = true;
+                }
+            }
+        }
     }
 
     // Move Car
     void MoveCar()
     {
-        rb.position += transform.forward * speed * Time.deltaTime;
+        if (wasClickedOn)
+        {
+            rb.position += transform.forward * speed * Time.deltaTime;
+        }
+
     }
 
     // Rotate Car
