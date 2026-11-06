@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Button restartButton;
     [SerializeField] private GameObject selectionPanel;
+    [SerializeField] private SpawnManager spawnManager;
 
     private int score;
     private float time;
@@ -47,14 +48,17 @@ public class GameManager : MonoBehaviour
         {
             // Easy
             case 3:
+                spawnManager.SpawnCars(3);
                 Debug.Log("Spawned 3 cars");
                 break;
             // Medium
             case 2:
+                spawnManager.SpawnCars(5);
                 Debug.Log("Spawned 5 cars");
                 break;
             // Hard
             case 1:
+                spawnManager.SpawnCars(7);
                 Debug.Log("Spawned 7 cars");
                 break;
             default:

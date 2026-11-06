@@ -25,6 +25,9 @@ public class CarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         wasClickedOn = false;
         hasTurned = false;
+
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
