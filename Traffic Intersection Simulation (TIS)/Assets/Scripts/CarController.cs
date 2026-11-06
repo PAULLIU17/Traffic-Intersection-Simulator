@@ -37,6 +37,12 @@ public class CarController : MonoBehaviour
         {
             CrossIntersection();
         }
+
+        // If falls out of map
+        if(transform.position.y < -5)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Detects when mouse clicks car
@@ -84,6 +90,8 @@ public class CarController : MonoBehaviour
         {
             isAtIntersection = true;
 
+            // Sets turnLocation depending on exitDirection value
+            // This allows the car to turn at the appropriate time
             if (exitDirection == 0) 
             { 
                 turnLocation = transform.position + transform.forward * 3.5f; 
@@ -93,7 +101,6 @@ public class CarController : MonoBehaviour
                 turnLocation = transform.position + transform.forward * 2.0f; 
             }
 
-            Debug.Log(turnLocation);
         }
     }
 
