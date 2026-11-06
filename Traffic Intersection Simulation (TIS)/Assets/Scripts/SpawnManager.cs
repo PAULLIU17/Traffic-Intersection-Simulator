@@ -4,7 +4,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private GameObject[] carPrefab;
+    [SerializeField] private GameObject carPrefab;
     [SerializeField] private Transform[] spawnPoints; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
