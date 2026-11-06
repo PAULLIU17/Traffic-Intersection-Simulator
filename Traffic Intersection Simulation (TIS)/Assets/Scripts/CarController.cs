@@ -44,12 +44,6 @@ public class CarController : MonoBehaviour
             CrossIntersection();
         }
 
-        // If falls out of map
-        if(transform.position.y < -5)
-        {
-            Destroy(gameObject);
-        }
-
         // Detects left mouse button clicks/presses
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -107,7 +101,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    // Detects when car reaches intersection
+    // Detects when car reaches intersection or exit
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Crosswalk Trigger"))
@@ -125,6 +119,11 @@ public class CarController : MonoBehaviour
                 turnLocation = transform.position + transform.forward * 2.0f; 
             }
 
+        }
+
+        else if(other.CompareTag("Exit"))
+        {
+            Destroy(gameObject);
         }
     }
 

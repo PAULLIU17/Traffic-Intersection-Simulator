@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Crosswalk Trigger
   - Car
+  - Exit
   layers:
   - Default
   - TransparentFX
