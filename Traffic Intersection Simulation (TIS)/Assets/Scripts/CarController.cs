@@ -7,6 +7,8 @@ public class CarController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private int exitDirection;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private Camera mainCamera;
 
     private bool isAtIntersection;
     private Rigidbody rb;
@@ -27,10 +29,9 @@ public class CarController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-
+    {
         // If approaching or leaving intersection
-        if(!isAtIntersection) { 
+        if (!isAtIntersection) { 
             MoveCar(); 
         }
 
@@ -46,16 +47,16 @@ public class CarController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Detects left mouse button clicks/presses on GameObjects
+        // Detects left mouse button clicks/presses
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             // Creates a ray that points to where the mouse is clicking
             // And creates a visible red ray
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             Debug.DrawRay(ray.origin, ray.direction * 100.0f, Color.red, 2f);
 
-            // If ray touches target, destroys target and updates score if game is still ongoing
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            // Detects if mouse clicks on Car
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
             {
                 if (hit.transform == transform)
                 {
@@ -69,7 +70,8 @@ public class CarController : MonoBehaviour
     // Move Car
     void MoveCar()
     {
-        if (wasClickedOn)
+        // Car only moves when the game has started and clicked on
+        if (gameManager.IsGameStarted() && wasClickedOn)
         {
             rb.position += transform.forward * speed * Time.deltaTime;
         }

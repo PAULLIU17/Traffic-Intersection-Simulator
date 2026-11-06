@@ -21,31 +21,21 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isGameStarted = false;
         isGameOver = false;
     }
 
     // Update is called once per frame
     void Update()
     {   
-        // If game is not over yet and time is more than 0
-        // Continue countdown
-        if(!isGameOver && time > 0)
-        {
-            time -= Time.deltaTime;
-
-            // If time runs out, then game over
-            if (time <= 0)
-            {
-                GameOver();
-            }
-        }
-
         UpdateTime();
     }
 
     // Starts the game with the intended difficulty
     public void StartGame(int difficulty)
     {
+        isGameStarted = true;
+
         titleScreen.gameObject.SetActive(false);
 
         scoreText.gameObject.SetActive(true);
@@ -57,17 +47,14 @@ public class GameManager : MonoBehaviour
         {
             // Easy
             case 3:
-                SetTime(3);
                 Debug.Log("Spawned 3 cars");
                 break;
             // Medium
             case 2:
-                SetTime(2);
                 Debug.Log("Spawned 5 cars");
                 break;
             // Hard
             case 1:
-                SetTime(1);
                 Debug.Log("Spawned 7 cars");
                 break;
             default:
@@ -76,6 +63,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetScore();
+        SetTime(difficulty);
 
     }
 
@@ -107,6 +95,31 @@ public class GameManager : MonoBehaviour
     void UpdateTime()
     {
         timerText.text = "Time: " + Mathf.CeilToInt(time).ToString();
+
+        // If game has started and time is more than 0
+        // Continue countdown
+        if (isGameStarted && time > 0)
+        {
+            time -= Time.deltaTime;
+
+            // If time runs out, then game over
+            if (time <= 0)
+            {
+                GameOver();
+            }
+        }
+    }
+
+    // Returns isGameStarted
+    public bool IsGameStarted()
+    {
+        return isGameStarted;
+    }
+
+    // Returns IsGameOver
+    public bool IsGameOver()
+    {
+        return isGameOver;
     }
 
     // Game Over
