@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject titleScreen;
+    [SerializeField] private GameObject gameScreen;
+    [SerializeField] private GameObject gameOverScreen;
+
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Button switchView;
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Button restartButton;
-    [SerializeField] private GameObject selectionPanel;
     [SerializeField] private SpawnManager spawnManager;
 
     private int score;
@@ -38,11 +40,7 @@ public class GameManager : MonoBehaviour
         isGameStarted = true;
 
         titleScreen.gameObject.SetActive(false);
-
-        scoreText.gameObject.SetActive(true);
-        timerText.gameObject.SetActive(true);
-        switchView.gameObject.SetActive(true);
-        selectionPanel.gameObject.SetActive(true);
+        gameScreen.gameObject.SetActive(true);
 
         switch (difficulty)
         {
@@ -130,8 +128,8 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         isGameOver = true;
-        gameOverText.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(true);
+        gameScreen.gameObject.SetActive(false);
+        gameOverScreen.gameObject.SetActive(true);
     }
 
     // Restarts the game when called
