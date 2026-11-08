@@ -11,9 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private Button switchView;
-    [SerializeField] private TextMeshProUGUI gameOverText;
-    [SerializeField] private Button restartButton;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private SpawnManager spawnManager;
 
     private int score;
@@ -84,12 +82,12 @@ public class GameManager : MonoBehaviour
     }
 
     // Sets time based on difficulty level
-    // Easy = 180 seconds
-    // Medium = 120 seconds
-    // Hard = 60 seconds
+    // Easy = 60 seconds
+    // Medium = 40 seconds
+    // Hard = 20 seconds
     void SetTime(int difficulty)
     {
-        time = difficulty * 60;
+        time = difficulty * 20;
         timerText.text = "Time: " + time.ToString();
     }
 
@@ -128,6 +126,7 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         isGameOver = true;
+        finalScoreText.text = "Final Score: " + score.ToString();
         gameScreen.gameObject.SetActive(false);
         gameOverScreen.gameObject.SetActive(true);
     }
