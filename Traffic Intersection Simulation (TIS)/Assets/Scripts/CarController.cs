@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
             MoveCar(); 
         }
 
-        // If still at intersection
+        // If at intersection
         if (isAtIntersection)
         {
             CrossIntersection();
@@ -112,7 +112,7 @@ public class CarController : MonoBehaviour
             // This allows the car to turn at the appropriate time
             if (exitDirection == 0) 
             { 
-                turnLocation = transform.position + transform.forward * 3.5f; 
+                turnLocation = transform.position + transform.forward * 3.5f;
             }
             else if (exitDirection == 2) 
             { 
@@ -121,8 +121,10 @@ public class CarController : MonoBehaviour
 
         }
 
+        // If car reaches an exit...
         else if(other.CompareTag("Exit"))
-        {
+        {   
+            // Destroy car
             Destroy(gameObject);
         }
     }

@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Updates score whenever player makes the correct choice
-    void UpdateScore()
+    public void UpdateScore()
     {
         score++;
         scoreText.text = "Score: " + score.ToString();
