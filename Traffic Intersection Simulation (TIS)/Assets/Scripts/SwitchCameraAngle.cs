@@ -12,10 +12,10 @@ public class SwitchCameraAngle : MonoBehaviour
     void Start()
     {
         isOriginal = true;
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
+        originalPosition = new Vector3(4, 4, 4);
+        originalRotation = Quaternion.Euler(45, -135, 0);
         overheadPosition = new Vector3(0, 8, 0);
-        overheadRotation = Quaternion.Euler(90, 0, 0);
+        overheadRotation = Quaternion.Euler(90, -135, 0);
     }
 
     // Update is called once per frame
