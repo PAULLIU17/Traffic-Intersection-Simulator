@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,10 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI finalScoreText;
-    [SerializeField] private SpawnManager spawnManager;
 
     private int score;
-    private float time;
+    private float currentTime;
     private bool isGameStarted;
     private bool isGameOver;
 
@@ -33,37 +33,13 @@ public class GameManager : MonoBehaviour
     }
 
     // Starts the game with the intended difficulty
-    public void StartGame(int difficulty)
+    public void StartGame(int time)
     {
         isGameStarted = true;
-
         titleScreen.gameObject.SetActive(false);
         gameScreen.gameObject.SetActive(true);
-
-        switch (difficulty)
-        {
-            // Easy
-            case 3:
-                spawnManager.SpawnCars(3);
-                Debug.Log("Spawned 3 cars");
-                break;
-            // Medium
-            case 2:
-                spawnManager.SpawnCars(5);
-                Debug.Log("Spawned 5 cars");
-                break;
-            // Hard
-            case 1:
-                spawnManager.SpawnCars(7);
-                Debug.Log("Spawned 7 cars");
-                break;
-            default:
-                Debug.Log("Error");
-                break;
-        }
-
         SetScore();
-        SetTime(difficulty);
+        SetTime(time);
 
     }
 
@@ -85,25 +61,25 @@ public class GameManager : MonoBehaviour
     // Easy = 60 seconds
     // Medium = 40 seconds
     // Hard = 20 seconds
-    void SetTime(int difficulty)
+    void SetTime(int timeToAdd)
     {
-        time = difficulty * 20;
-        timerText.text = "Time: " + time.ToString();
+        currentTime = timeToAdd;
+        timerText.text = "Time: " + currentTime.ToString();
     }
 
     // Updates time
     void UpdateTime()
     {
-        timerText.text = "Time: " + Mathf.CeilToInt(time).ToString();
+        timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
 
         // If game has started and time is more than 0
         // Continue countdown
-        if (isGameStarted && time > 0)
+        if (isGameStarted && currentTime > 0)
         {
-            time -= Time.deltaTime;
+            currentTime -= Time.deltaTime;
 
             // If time runs out, then game over
-            if (time <= 0)
+            if (currentTime <= 0)
             {
                 GameOver();
             }

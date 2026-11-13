@@ -9,6 +9,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private int exitDirection;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private SpawnManager spawnManager;
 
     private bool isAtIntersection;
     private Rigidbody rb;
@@ -28,6 +29,8 @@ public class CarController : MonoBehaviour
 
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         mainCamera = Camera.main;
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        spawnManager.SpawnArrows(exitDirection, transform);
     }
 
     // Update is called once per frame
@@ -62,6 +65,12 @@ public class CarController : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Return exitDirection
+    public int GetExitDirection()
+    {
+        return exitDirection;
     }
 
     // Move Car

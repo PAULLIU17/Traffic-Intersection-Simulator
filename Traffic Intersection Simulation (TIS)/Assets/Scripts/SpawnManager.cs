@@ -7,20 +7,22 @@ public class SpawnManager : MonoBehaviour
 {
     //[SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject carPrefab;
+    [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private List<int> unavailableIndex;
+
+    private List<GameObject> listOfCars;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-
         unavailableIndex = new List<int>();
+        listOfCars = new List<GameObject>();
     }
 
     // numOfCars:
-    // 3 = easy,
-    // 5 = medium,
+    // 3 = easy
+    // 5 = medium
     // 7 = hard
     public void SpawnCars(int numOfCars)
     {
@@ -69,9 +71,27 @@ public class SpawnManager : MonoBehaviour
                     rotation = Quaternion.Euler(0, -180, 0);
                     break;
             }
+            
+            listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+        }
+    }
 
-            Instantiate(carPrefab, randomPoint, rotation);
-
+    // Spawns directional arrows to tell players which direction the car will exit from
+    public void SpawnArrows(int exitDirection, Transform carTransform)
+    {
+        switch(exitDirection)
+        {
+            case 0:
+                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, -90, 0));
+                break;
+            case 1:
+                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, 0, 0));
+                break;
+            case 2:
+                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, 90, 0));
+                break;
+            default:
+                break;
         }
     }
 }
