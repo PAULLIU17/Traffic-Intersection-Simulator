@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI finalScoreText;
+    [SerializeField] private TextMeshProUGUI timeRemainingText;
 
     private int score;
     private float currentTime;
@@ -40,7 +41,6 @@ public class GameManager : MonoBehaviour
         gameScreen.gameObject.SetActive(true);
         SetScore();
         SetTime(time);
-
     }
 
     // Sets score to 0
@@ -57,10 +57,10 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
     }
 
-    // Sets time based on difficulty level
-    // Easy = 60 seconds
-    // Medium = 40 seconds
-    // Hard = 20 seconds
+    // Sets time based on difficulty selection
+    // Easy = 120 seconds
+    // Medium = 90 seconds
+    // Hard = 60 seconds
     void SetTime(int timeToAdd)
     {
         currentTime = timeToAdd;
@@ -86,23 +86,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Returns isGameStarted
-    public bool IsGameStarted()
-    {
-        return isGameStarted;
-    }
-
-    // Returns IsGameOver
-    public bool IsGameOver()
-    {
-        return isGameOver;
-    }
-
-    // Game Over
-    void GameOver()
+    // Sets game status to gameover and shows gameOverScreen
+    public void GameOver()
     {
         isGameOver = true;
         finalScoreText.text = "Final Score: " + score.ToString();
+        timeRemainingText.text = "Time Remaining: " + Mathf.CeilToInt(currentTime).ToString();
         gameScreen.gameObject.SetActive(false);
         gameOverScreen.gameObject.SetActive(true);
     }

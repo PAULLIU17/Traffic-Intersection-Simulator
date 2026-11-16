@@ -11,13 +11,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private List<int> unavailableIndex;
 
-    private List<GameObject> listOfCars;
+    [SerializeField] private List<GameObject> listOfCars;
+    private List<GameObject> listOfArrows;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         unavailableIndex = new List<int>();
         listOfCars = new List<GameObject>();
+        listOfArrows = new List<GameObject>();
     }
 
     // numOfCars:
@@ -52,27 +54,50 @@ public class SpawnManager : MonoBehaviour
             {
                 //Northwest
                 case 0:
+                    rotation = Quaternion.Euler(0, 0, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "NW Inner Car";
+                    break;
                 case 1:
                     rotation = Quaternion.Euler(0, 0, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "NW Outer Car";
                     break;
                 //Northeast
                 case 2:
+                    rotation = Quaternion.Euler(0, 90, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "NE Inner Car";
+                    break;
                 case 3:
                     rotation = Quaternion.Euler(0, 90, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "NE Outer Car";
                     break;
                 //Southwest
                 case 4:
+                    rotation = Quaternion.Euler(0, -90, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "SW Inner Car";
+                    break;
                 case 5:
                     rotation = Quaternion.Euler(0, -90, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "SW Outer Car";
                     break;
                 //Southeast
                 case 6:
+                    rotation = Quaternion.Euler(0, -180, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "SE Inner Car";
+                    break;
                 case 7:
                     rotation = Quaternion.Euler(0, -180, 0);
+                    listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+                    listOfCars[i].name = "SE Outer Car";
                     break;
             }
-            
-            listOfCars.Add(Instantiate(carPrefab, randomPoint, rotation));
+
         }
     }
 
@@ -82,16 +107,26 @@ public class SpawnManager : MonoBehaviour
         switch(exitDirection)
         {
             case 0:
-                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, -90, 0));
+                listOfArrows.Add(Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, -90, 0)));
                 break;
             case 1:
-                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, 0, 0));
+                listOfArrows.Add(Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0,   0, 0)));
                 break;
             case 2:
-                Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0, 90, 0));
+                listOfArrows.Add(Instantiate(arrowPrefab, carTransform.position + Vector3.up, carTransform.rotation * Quaternion.Euler(0,  90, 0)));
                 break;
             default:
                 break;
+        }
+    }
+
+    // Destroys all directional arrows created from previous method
+    // Called when submit button is pressed
+    public void DeleteAllArrows() 
+    {
+        foreach(GameObject arrow in listOfArrows)
+        {
+            Destroy(arrow);
         }
     }
 }

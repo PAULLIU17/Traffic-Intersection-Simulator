@@ -10,10 +10,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private SelectionManager selectionManager;
 
     private bool isAtIntersection;
     private Rigidbody rb;
-    private bool wasClickedOn;
     private bool hasTurned;
     private Vector3 turnLocation;
 
@@ -24,13 +24,13 @@ public class CarController : MonoBehaviour
 
         isAtIntersection = false;
         rb = GetComponent<Rigidbody>();
-        wasClickedOn = false;
         hasTurned = false;
 
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         mainCamera = Camera.main;
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         spawnManager.SpawnArrows(exitDirection, transform);
+        selectionManager = GameObject.Find("Selection Manager").GetComponent<SelectionManager>();
     }
 
     // Update is called once per frame
@@ -60,8 +60,7 @@ public class CarController : MonoBehaviour
             {
                 if (hit.transform == transform)
                 {
-                    Debug.Log("Car was clicked.");
-                    wasClickedOn = true;
+                    selectionManager.AddCar(gameObject);
                 }
             }
         }
@@ -76,8 +75,8 @@ public class CarController : MonoBehaviour
     // Move Car
     void MoveCar()
     {
-        // Car only moves when the game has started and clicked on
-        if (gameManager.IsGameStarted() && wasClickedOn)
+        // Car only moves when selection panel's submit button was pressed
+        if (selectionManager.ReturnSubmitButtonState())
         {
             rb.position += transform.forward * speed * Time.deltaTime;
         }
@@ -121,11 +120,11 @@ public class CarController : MonoBehaviour
             // This allows the car to turn at the appropriate time
             if (exitDirection == 0) 
             { 
-                turnLocation = transform.position + transform.forward * 3.5f;
+                turnLocation = transform.position + transform.forward * 3.25f;
             }
             else if (exitDirection == 2) 
             { 
-                turnLocation = transform.position + transform.forward * 2.0f; 
+                turnLocation = transform.position + transform.forward * 2.25f; 
             }
 
         }
@@ -133,8 +132,16 @@ public class CarController : MonoBehaviour
         // If car reaches an exit...
         else if(other.CompareTag("Exit"))
         {   
-            // Destroy car
-            Destroy(gameObject);
+            // For the last car, call gameover before destroying last car
+            if (GameObject.FindGameObjectsWithTag("Car").Length == 1)
+            {
+                gameManager.GameOver();
+                Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
