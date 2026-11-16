@@ -15,16 +15,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI timeRemainingText;
 
+    [SerializeField] private SelectionManager selectionManager;
+
     private int score;
     private float currentTime;
     private bool isGameStarted;
-    private bool isGameOver;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isGameStarted = false;
-        isGameOver = false;
     }
 
     // Update is called once per frame
@@ -72,9 +72,9 @@ public class GameManager : MonoBehaviour
     {
         timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
 
-        // If game has started and time is more than 0
-        // Continue countdown
-        if (isGameStarted && currentTime > 0)
+        // If game has started and time is more than 0 and player hasn't made selection yet,
+        // Then count down
+        if (isGameStarted && currentTime > 0 && !selectionManager.ReturnSubmitButtonState())
         {
             currentTime -= Time.deltaTime;
 
@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
     // Sets game status to gameover and shows gameOverScreen
     public void GameOver()
     {
-        isGameOver = true;
         finalScoreText.text = "Final Score: " + score.ToString();
         timeRemainingText.text = "Time Remaining: " + Mathf.CeilToInt(currentTime).ToString();
         gameScreen.gameObject.SetActive(false);

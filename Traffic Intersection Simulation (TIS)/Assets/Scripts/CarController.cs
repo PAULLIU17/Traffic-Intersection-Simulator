@@ -16,6 +16,7 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
     private bool hasTurned;
     private Vector3 turnLocation;
+    private bool allowedToMove;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +26,7 @@ public class CarController : MonoBehaviour
         isAtIntersection = false;
         rb = GetComponent<Rigidbody>();
         hasTurned = false;
+        allowedToMove = false;
 
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         mainCamera = Camera.main;
@@ -66,17 +68,17 @@ public class CarController : MonoBehaviour
         }
     }
 
-    // Return exitDirection
-    public int GetExitDirection()
+    // Allows GameObject to move
+    public void AllowToMove()
     {
-        return exitDirection;
+        allowedToMove = true;
     }
 
     // Move Car
     void MoveCar()
     {
         // Car only moves when selection panel's submit button was pressed
-        if (selectionManager.ReturnSubmitButtonState())
+        if (allowedToMove)
         {
             rb.position += transform.forward * speed * Time.deltaTime;
         }

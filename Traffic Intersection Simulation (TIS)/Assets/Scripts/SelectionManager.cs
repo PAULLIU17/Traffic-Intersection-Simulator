@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +7,12 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private GameObject selectionPanel;
 
     private List<GameObject> listOfSelectedCars;
-    private Queue<GameObject> queueOfSelectedCars;
     private bool wasSubmitButtonPressed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         listOfSelectedCars = new List<GameObject>();
-        queueOfSelectedCars = new Queue<GameObject>();
     }
 
     // Update is called once per frame
@@ -27,7 +26,7 @@ public class SelectionManager : MonoBehaviour
     {
         for(int i = 0; i < listOfSelectedCars.Count; i++)
         {
-            selectionPanel.transform.GetChild(i).GetComponent<TMPro.TextMeshProUGUI>().text = listOfSelectedCars[i].name;
+            selectionPanel.transform.GetChild(i).GetComponent<TMPro.TextMeshProUGUI>().text = i+1 + ". " + listOfSelectedCars[i].name;
         }
     }
 
@@ -50,18 +49,28 @@ public class SelectionManager : MonoBehaviour
     }
 
     // Return wasSubmitButtonPressed
-    // Used by CarController to move cars
+    // Used by GameManager for timer countdown
     public bool ReturnSubmitButtonState()
     {
         return wasSubmitButtonPressed;
     }
 
     // Will be called after "Submit" Button is pressed
-    // Disables Selection Panel
-    // Allows car to move
+    // Runs the game after player submits their choices
+    // And allows cars to move one by one
     public void RunGame()
     {
         wasSubmitButtonPressed = true;
-        selectionPanel.gameObject.SetActive(false);
+        StartCoroutine(GoThroughCarQueue());
+    }
+
+    IEnumerator GoThroughCarQueue()
+    {
+        while(listOfSelectedCars.Count > 0)
+        {
+            listOfSelectedCars[0].gameObject.GetComponent<CarController>().AllowToMove();
+            listOfSelectedCars.Remove(listOfSelectedCars[0]);
+            yield return new WaitForSeconds(3);
+        }
     }
 }
