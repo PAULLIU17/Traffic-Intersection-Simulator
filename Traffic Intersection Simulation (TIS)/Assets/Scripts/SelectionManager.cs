@@ -61,9 +61,12 @@ public class SelectionManager : MonoBehaviour
     public void RunGame()
     {
         wasSubmitButtonPressed = true;
+        //selectionPanel.gameObject.SetActive(false);
         StartCoroutine(GoThroughCarQueue());
     }
 
+    // Iterates through a "queue" of car using listOfSelectedCars
+    // Cars leave in order designated by the Player
     IEnumerator GoThroughCarQueue()
     {
         while(listOfSelectedCars.Count > 0)

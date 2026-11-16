@@ -60,7 +60,7 @@ public class CarController : MonoBehaviour
             // Detects if mouse clicks on Car
             if (Physics.Raycast(ray, out RaycastHit hit, 100f))
             {
-                if (hit.transform == transform)
+                if (hit.transform == transform && !selectionManager.ReturnSubmitButtonState())
                 {
                     selectionManager.AddCar(gameObject);
                 }
