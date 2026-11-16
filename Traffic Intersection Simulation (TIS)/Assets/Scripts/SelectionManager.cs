@@ -6,6 +6,8 @@ public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private GameObject selectionPanel;
 
+    [SerializeField] private SpawnManager spawnManager;
+
     private List<GameObject> listOfSelectedCars;
     private bool wasSubmitButtonPressed;
 
@@ -56,13 +58,18 @@ public class SelectionManager : MonoBehaviour
     }
 
     // Will be called after "Submit" Button is pressed
+    // Checks to make sure player has chosen all cars
     // Runs the game after player submits their choices
     // And allows cars to move one by one
     public void RunGame()
     {
-        wasSubmitButtonPressed = true;
-        //selectionPanel.gameObject.SetActive(false);
-        StartCoroutine(GoThroughCarQueue());
+        if(listOfSelectedCars.Count == spawnManager.ReturnNumOfCarsSpawned())
+        {
+            wasSubmitButtonPressed = true;
+            //selectionPanel.gameObject.SetActive(false);
+            spawnManager.DeleteAllArrows();
+            StartCoroutine(GoThroughCarQueue());
+        }
     }
 
     // Iterates through a "queue" of car using listOfSelectedCars

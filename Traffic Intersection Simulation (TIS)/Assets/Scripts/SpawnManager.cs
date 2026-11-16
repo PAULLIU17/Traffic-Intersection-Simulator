@@ -10,9 +10,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private List<int> unavailableIndex;
-
-    [SerializeField] private List<GameObject> listOfCars;
+    
+    private List<GameObject> listOfCars;
     private List<GameObject> listOfArrows;
+    private int numOfCarsSpawned;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +30,8 @@ public class SpawnManager : MonoBehaviour
     public void SpawnCars(int numOfCars)
     {
         if (spawnPoints.Length == 0) return;
+
+        numOfCarsSpawned = numOfCars;
 
         for (int i = 0; i < numOfCars; i++)
         {
@@ -128,5 +131,10 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(arrow);
         }
+    }
+
+    public int ReturnNumOfCarsSpawned()
+    {
+        return numOfCarsSpawned;
     }
 }

@@ -336,7 +336,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4294916608
   m_fontColor: {r: 0, g: 0.22552013, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -729,6 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   selectionPanel: {fileID: 1712376784}
+  spawnManager: {fileID: 195535203}
 --- !u!4 &156450102
 Transform:
   m_ObjectHideFlags: 0
@@ -918,7 +919,6 @@ MonoBehaviour:
   - {fileID: 335474857}
   - {fileID: 948350260}
   unavailableIndex: 
-  listOfCars: []
 --- !u!4 &195535204
 Transform:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278235391
   m_fontColor: {r: 1, g: 0.6898589, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278255591
   m_fontColor: {r: 0.90548396, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1789,7 +1789,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4294901879
   m_fontColor: {r: 0.46590996, g: 0, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2336,18 +2336,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 195535203}
-        m_TargetAssemblyTypeName: SpawnManager, Assembly-CSharp
-        m_MethodName: DeleteAllArrows
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 156450101}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
         m_MethodName: RunGame
@@ -2645,7 +2633,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190335
   m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6204,7 +6192,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278255363
   m_fontColor: {r: 0.011712074, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7573,7 +7561,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292935935
   m_fontColor: {r: 1, g: 0, b: 0.88169384, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

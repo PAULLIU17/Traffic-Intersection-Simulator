@@ -69,6 +69,7 @@ public class CarController : MonoBehaviour
     }
 
     // Allows GameObject to move
+    // Called by SelectionManager
     public void AllowToMove()
     {
         allowedToMove = true;
@@ -153,6 +154,15 @@ public class CarController : MonoBehaviour
         if (other.CompareTag("Crosswalk Trigger"))
         {
             isAtIntersection = false;
+        }
+    }
+
+    // Detects when colliding with other cars
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Car"))
+        {
+            gameManager.GameOver();
         }
     }
 
